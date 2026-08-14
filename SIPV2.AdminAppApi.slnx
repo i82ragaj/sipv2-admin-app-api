@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="SIPV2.AdminAppApi.Tests/SIPV2.AdminAppApi.Tests.csproj" />
+  <Project Path="SIPV2.AdminAppApi/SIPV2.AdminAppApi.csproj" />
+  <Project Path="SIPV2.DataModels/SIPV2.DataModels.csproj" />
+</Solution>
