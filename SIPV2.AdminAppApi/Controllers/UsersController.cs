@@ -8,7 +8,7 @@ namespace SIPV2.AdminAppApi.Controllers;
 
 [ApiController]
 [Route("api/users")]
-[Authorize(Roles = "Admin")]
+[Authorize(Roles = "admin")]
 public class UsersController : ControllerBase
 {
     private readonly IUserRepository _repository;

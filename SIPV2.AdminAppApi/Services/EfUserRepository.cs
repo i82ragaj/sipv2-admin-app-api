@@ -65,6 +65,8 @@ public class EfUserRepository : IUserRepository
         return true;
     }
 
+    // "Eliminar" es borrado lógico en toda la aplicación: se desactiva el
+    // registro (Active = false) en vez de borrar la fila físicamente.
     public async Task<bool> DeleteAsync(Guid id)
     {
         var existing = await _context.Mdusers.FirstOrDefaultAsync(u => u.Id == id);
@@ -73,7 +75,8 @@ public class EfUserRepository : IUserRepository
             return false;
         }
 
-        _context.Mdusers.Remove(existing);
+        existing.Active = false;
+        existing.Updated = DateTime.UtcNow;
         await _context.SaveChangesAsync();
         return true;
     }

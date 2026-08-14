@@ -8,7 +8,7 @@ namespace SIPV2.AdminAppApi.Controllers;
 
 [ApiController]
 [Route("api/parkings")]
-[Authorize(Roles = "Admin")]
+[Authorize(Roles = "admin")]
 public class ParkingsController : ControllerBase
 {
     private readonly IParkingRepository _repository;

@@ -45,6 +45,8 @@ public class EfRolRepository : IRolRepository
         return true;
     }
 
+    // "Eliminar" es borrado lógico en toda la aplicación: se desactiva el
+    // registro (Active = false) en vez de borrar la fila físicamente.
     public async Task<bool> DeleteAsync(Guid id)
     {
         var existing = await _context.Mdrols.FirstOrDefaultAsync(r => r.Id == id);
@@ -53,7 +55,8 @@ public class EfRolRepository : IRolRepository
             return false;
         }
 
-        _context.Mdrols.Remove(existing);
+        existing.Active = false;
+        existing.Updated = DateTime.UtcNow;
         await _context.SaveChangesAsync();
         return true;
     }

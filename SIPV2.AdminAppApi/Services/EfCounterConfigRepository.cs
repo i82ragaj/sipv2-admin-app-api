@@ -50,6 +50,8 @@ public class EfCounterConfigRepository : ICounterConfigRepository
         return true;
     }
 
+    // "Eliminar" es borrado lógico en toda la aplicación: se desactiva el
+    // registro (IsActive = false) en vez de borrar la fila físicamente.
     public async Task<bool> DeleteAsync(Guid id)
     {
         var existing = await _context.MdcounterConfigs.FirstOrDefaultAsync(c => c.Id == id);
@@ -58,7 +60,8 @@ public class EfCounterConfigRepository : ICounterConfigRepository
             return false;
         }
 
-        _context.MdcounterConfigs.Remove(existing);
+        existing.IsActive = false;
+        existing.Updated = DateTime.UtcNow;
         await _context.SaveChangesAsync();
         return true;
     }

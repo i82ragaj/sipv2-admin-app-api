@@ -9,7 +9,7 @@ namespace SIPV2.AdminAppApi.Controllers;
 // Solo lectura: MDParkingStatus lo alimenta el proceso de importación, no se edita desde la API.
 [ApiController]
 [Route("api/parking-statuses")]
-[Authorize(Roles = "Admin")]
+[Authorize(Roles = "admin")]
 public class ParkingStatusesController : ControllerBase
 {
     private readonly IParkingStatusRepository _repository;

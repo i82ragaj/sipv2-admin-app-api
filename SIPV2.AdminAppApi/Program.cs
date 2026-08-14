@@ -60,9 +60,10 @@ builder.Services
 builder.Services.AddAuthorization(options =>
 {
     // Cualquier endpoint sin [Authorize]/[AllowAnonymous] explícito queda protegido igualmente.
+    // Convención: los nombres de rol se guardan en minúsculas (ver Roles en MDRol).
     options.FallbackPolicy = new AuthorizationPolicyBuilder()
         .RequireAuthenticatedUser()
-        .RequireRole("Admin")
+        .RequireRole("admin")
         .Build();
 });
 

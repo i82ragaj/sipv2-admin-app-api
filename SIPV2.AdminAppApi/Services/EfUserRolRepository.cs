@@ -48,16 +48,7 @@ public class EfUserRolRepository : IUserRolRepository
         return true;
     }
 
-    public async Task<bool> DeleteAsync(Guid id)
-    {
-        var existing = await _context.MduserRols.FirstOrDefaultAsync(ur => ur.Id == id);
-        if (existing is null)
-        {
-            return false;
-        }
-
-        _context.MduserRols.Remove(existing);
-        await _context.SaveChangesAsync();
-        return true;
-    }
+    // "Eliminar" es borrado lógico en toda la aplicación: se desactiva la
+    // asignación (Active = false) en vez de borrar la fila físicamente.
+    public Task<bool> DeleteAsync(Guid id) => UpdateActiveAsync(id, false);
 }

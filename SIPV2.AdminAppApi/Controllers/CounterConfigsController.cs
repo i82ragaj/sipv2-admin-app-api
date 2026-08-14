@@ -8,7 +8,7 @@ namespace SIPV2.AdminAppApi.Controllers;
 
 [ApiController]
 [Route("api/counter-configs")]
-[Authorize(Roles = "Admin")]
+[Authorize(Roles = "admin")]
 public class CounterConfigsController : ControllerBase
 {
     private readonly ICounterConfigRepository _repository;

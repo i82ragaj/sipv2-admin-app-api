@@ -57,6 +57,8 @@ public class EfParkingRepository : IParkingRepository
         return true;
     }
 
+    // "Eliminar" es borrado lógico en toda la aplicación: se desactiva el
+    // registro (Active = false) en vez de borrar la fila físicamente.
     public async Task<bool> DeleteAsync(string id)
     {
         var existing = await _context.Mdparkings.FirstOrDefaultAsync(p => p.Id == id);
@@ -65,7 +67,8 @@ public class EfParkingRepository : IParkingRepository
             return false;
         }
 
-        _context.Mdparkings.Remove(existing);
+        existing.Active = false;
+        existing.Updated = DateTime.UtcNow;
         await _context.SaveChangesAsync();
         return true;
     }
