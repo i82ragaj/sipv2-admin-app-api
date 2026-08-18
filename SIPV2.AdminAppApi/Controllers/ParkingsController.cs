@@ -8,7 +8,8 @@ namespace SIPV2.AdminAppApi.Controllers;
 
 [ApiController]
 [Route("api/parkings")]
-[Authorize(Roles = "admin")]
+// Grupo "Configuración" del menú (Parkings/Configuración de contadores): rol "config", o "admin" (ve todo).
+[Authorize(Roles = "admin,config")]
 public class ParkingsController : ControllerBase
 {
     private readonly IParkingRepository _repository;

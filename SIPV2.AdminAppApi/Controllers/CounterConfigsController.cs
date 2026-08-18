@@ -8,7 +8,8 @@ namespace SIPV2.AdminAppApi.Controllers;
 
 [ApiController]
 [Route("api/counter-configs")]
-[Authorize(Roles = "admin")]
+// Grupo "Configuración" del menú (Parkings/Configuración de contadores): rol "config", o "admin" (ve todo).
+[Authorize(Roles = "admin,config")]
 public class CounterConfigsController : ControllerBase
 {
     private readonly ICounterConfigRepository _repository;

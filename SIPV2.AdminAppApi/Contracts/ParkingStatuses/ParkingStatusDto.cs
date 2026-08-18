@@ -17,4 +17,19 @@ public class ParkingStatusDto
     public DateTime? LastCountTotalsStatus { get; set; }
 
     public DateTime? LastImportedDuration { get; set; }
+
+    // Del join con MDParking (mismo Id).
+    public bool? ParkingActive { get; set; }
+
+    public string? ParkingName { get; set; }
+
+    public string? ParkingType { get; set; }
+
+    public string? ParkingDacode { get; set; }
+
+    public string? ParkingServerIp { get; set; }
+
+    public string? ParkingJob { get; set; }
+
+    public TimeOnly? ParkingLoadDate { get; set; }
 }

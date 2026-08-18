@@ -35,6 +35,7 @@ builder.Services.AddScoped<IRolRepository, EfRolRepository>();
 builder.Services.AddScoped<IUserRolRepository, EfUserRolRepository>();
 builder.Services.AddScoped<IParkingRepository, EfParkingRepository>();
 builder.Services.AddScoped<IParkingStatusRepository, EfParkingStatusRepository>();
+builder.Services.AddScoped<IParkingSummaryRepository, EfParkingSummaryRepository>();
 builder.Services.AddScoped<ICounterConfigRepository, EfCounterConfigRepository>();
 
 // --- Servicios de infraestructura ---

@@ -8,7 +8,8 @@ namespace SIPV2.AdminAppApi.Controllers;
 
 [ApiController]
 [Route("api/users")]
-[Authorize(Roles = "admin")]
+// Grupo "Seguridad" del menú (Usuarios/Roles): rol "security", o "admin" (ve todo).
+[Authorize(Roles = "admin,security")]
 public class UsersController : ControllerBase
 {
     private readonly IUserRepository _repository;

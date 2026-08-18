@@ -23,6 +23,9 @@ public class EfParkingRepository : IParkingRepository
         parking.Active = true;
         parking.Created = DateTime.UtcNow;
         _context.Mdparkings.Add(parking);
+
+        await EnsureParkingStatusAsync(parking.Id);
+
         await _context.SaveChangesAsync();
         return parking;
     }
@@ -53,6 +56,8 @@ public class EfParkingRepository : IParkingRepository
         existing.Frecuency = parking.Frecuency;
         existing.Updated = DateTime.UtcNow;
 
+        await EnsureParkingStatusAsync(existing.Id);
+
         await _context.SaveChangesAsync();
         return true;
     }
@@ -71,5 +76,26 @@ public class EfParkingRepository : IParkingRepository
         existing.Updated = DateTime.UtcNow;
         await _context.SaveChangesAsync();
         return true;
+    }
+
+    // MDParkingStatus lo alimenta normalmente el proceso de importación
+    // (ver ParkingStatusesController), pero un parking recién creado -o uno
+    // legacy que nunca llegó a importar- puede no tener fila todavía. Al
+    // crear/editar un parking nos aseguramos de que exista, con valores por
+    // defecto, para que "Estado de parkings" no lo deje fuera.
+    private async Task EnsureParkingStatusAsync(string parkingId)
+    {
+        var exists = await _context.MdparkingStatuses.AnyAsync(s => s.Id == parkingId);
+        if (exists)
+        {
+            return;
+        }
+
+        _context.MdparkingStatuses.Add(new MdparkingStatus
+        {
+            Id = parkingId,
+            Active = true,
+            Created = DateTime.UtcNow,
+        });
     }
 }
