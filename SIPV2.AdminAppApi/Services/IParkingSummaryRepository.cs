@@ -6,5 +6,12 @@ namespace SIPV2.AdminAppApi.Services;
 // Create/Update/Delete, solo consulta.
 public interface IParkingSummaryRepository
 {
-    Task<List<VparkingSummary>> GetAllAsync();
+    // Filtrado (parkingId/dateFrom/dateTo) y paginación resueltos en servidor;
+    // siempre ordenado por fecha descendente (más actuales primero).
+    Task<(IReadOnlyList<VparkingSummary> Items, int TotalCount)> GetPagedAsync(
+        string? parkingId,
+        DateOnly? dateFrom,
+        DateOnly? dateTo,
+        int pageIndex,
+        int pageSize);
 }
