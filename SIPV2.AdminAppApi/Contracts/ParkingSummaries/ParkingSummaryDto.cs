@@ -45,8 +45,4 @@ public class ParkingSummaryDto
     public decimal? RestTotal { get; set; }
 
     public int? RestNum { get; set; }
-
-    public int? DiscountTotal { get; set; }
-
-    public int? DiscountNum { get; set; }
 }

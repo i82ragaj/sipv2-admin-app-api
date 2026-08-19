@@ -17,10 +17,14 @@ public class ParkingSummariesController : ControllerBase
     private const int MaxPageSize = 100;
 
     private readonly IParkingSummaryRepository _repository;
+    private readonly IParkingSummaryDetailRepository _detailRepository;
 
-    public ParkingSummariesController(IParkingSummaryRepository repository)
+    public ParkingSummariesController(
+        IParkingSummaryRepository repository,
+        IParkingSummaryDetailRepository detailRepository)
     {
         _repository = repository;
+        _detailRepository = detailRepository;
     }
 
     // Filtro y paginación resueltos en servidor; el listado siempre viene
@@ -44,6 +48,28 @@ public class ParkingSummariesController : ControllerBase
             TotalCount = totalCount,
         });
     }
+
+    // Desglose por tipo de pago de una fila del listado, para el panel de
+    // detalle desplegable. summaryId es el Id de esa fila (VParkingSummary.Id);
+    // si viene vacío, se filtra por idpk+date.
+    [HttpGet("details")]
+    public async Task<ActionResult<List<ParkingSummaryDetailDto>>> GetDetails(
+        [FromQuery] string idpk,
+        [FromQuery] DateOnly date,
+        [FromQuery] string? summaryId)
+    {
+        var details = await _detailRepository.GetForSummaryAsync(summaryId, idpk, date);
+        return Ok(details.Select(ToDetailDto));
+    }
+
+    private static ParkingSummaryDetailDto ToDetailDto(VparkingSummaryDetail detail) => new()
+    {
+        PaymentTypeId = detail.PaymentTypeId,
+        PaymentTypeName = detail.PaymentTypeName,
+        Operations = detail.Operations,
+        Total = detail.Total,
+        Discount = detail.Discount,
+    };
 
     private static ParkingSummaryDto ToDto(VparkingSummary summary) => new()
     {
@@ -69,7 +95,5 @@ public class ParkingSummariesController : ControllerBase
         CashNum = summary.CashNum,
         RestTotal = summary.RestTotal,
         RestNum = summary.RestNum,
-        DiscountTotal = summary.DiscountTotal,
-        DiscountNum = summary.DiscountNum,
     };
 }
