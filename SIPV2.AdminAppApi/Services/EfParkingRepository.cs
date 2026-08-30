@@ -82,7 +82,7 @@ public class EfParkingRepository : IParkingRepository
     // (ver ParkingStatusesController), pero un parking recién creado -o uno
     // legacy que nunca llegó a importar- puede no tener fila todavía. Al
     // crear/editar un parking nos aseguramos de que exista, con valores por
-    // defecto, para que "Estado de parkings" no lo deje fuera.
+    // defecto, para que "Estado de integración" no lo deje fuera.
     private async Task EnsureParkingStatusAsync(string parkingId)
     {
         var exists = await _context.MdparkingStatuses.AnyAsync(s => s.Id == parkingId);

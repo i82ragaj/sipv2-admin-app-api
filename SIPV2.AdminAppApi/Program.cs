@@ -34,10 +34,13 @@ builder.Services.AddScoped<IUserRepository, EfUserRepository>();
 builder.Services.AddScoped<IRolRepository, EfRolRepository>();
 builder.Services.AddScoped<IUserRolRepository, EfUserRolRepository>();
 builder.Services.AddScoped<IParkingRepository, EfParkingRepository>();
+builder.Services.AddScoped<IParkingTypeRepository, EfParkingTypeRepository>();
 builder.Services.AddScoped<IParkingStatusRepository, EfParkingStatusRepository>();
 builder.Services.AddScoped<IParkingSummaryRepository, EfParkingSummaryRepository>();
 builder.Services.AddScoped<IParkingSummaryDetailRepository, EfParkingSummaryDetailRepository>();
 builder.Services.AddScoped<ICounterConfigRepository, EfCounterConfigRepository>();
+builder.Services.AddScoped<IDailyTotalRepository, EfDailyTotalRepository>();
+builder.Services.AddScoped<IOccupancyRepository, EfOccupancyRepository>();
 
 // --- Servicios de infraestructura ---
 builder.Services.AddSingleton<IJwtTokenService, JwtTokenService>();

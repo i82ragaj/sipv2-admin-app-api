@@ -10,7 +10,7 @@ namespace SIPV2.AdminAppApi.Controllers;
 // permitida desde la API es solicitar una importación diaria (RequestDailyImport).
 [ApiController]
 [Route("api/parking-statuses")]
-// Grupo "Estado" del menú (Estado de parkings): rol "status", o "admin" (ve todo).
+// Grupo "Consulta" del menú (Estado de integración): rol "status", o "admin" (ve todo).
 [Authorize(Roles = "admin,status")]
 public class ParkingStatusesController : ControllerBase
 {
