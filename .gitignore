@@ -427,3 +427,6 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# Logs de la API (Serilog, ver Serilog:WriteTo:File en appsettings.json)
+logs/

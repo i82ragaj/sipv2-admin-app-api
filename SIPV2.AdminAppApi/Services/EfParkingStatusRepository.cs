@@ -13,10 +13,10 @@ public class EfParkingStatusRepository : IParkingStatusRepository
     }
 
     public Task<List<MdparkingStatus>> GetAllAsync() =>
-        _context.MdparkingStatuses.AsNoTracking().Include(s => s.Parking).ToListAsync();
+        _context.MdparkingStatuses.AsNoTracking().Include(s => s.IdNavigation).ToListAsync();
 
     public Task<MdparkingStatus?> GetByIdAsync(string id) =>
-        _context.MdparkingStatuses.AsNoTracking().Include(s => s.Parking).FirstOrDefaultAsync(s => s.Id == id);
+        _context.MdparkingStatuses.AsNoTracking().Include(s => s.IdNavigation).FirstOrDefaultAsync(s => s.Id == id);
 
     private const string StatusOk = "OK";
     private const string StatusError = "ERROR";

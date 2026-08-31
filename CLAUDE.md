@@ -55,6 +55,30 @@ Tras cada scaffold, revisa el diff en `Models/` — puede cambiar la forma de un
 `partial class` existente (p. ej. una nueva FK como `TypeNavigation` en `Mdparking` al
 añadir `MDParkingType`) y hay que propagar el cambio a DTOs/repositorios a mano.
 
+## Logging
+
+Serilog (no el proveedor por defecto de ASP.NET Core), con el mismo patrón que
+`sipv2-occupancy-api/SIPV2.OccupancyApi/Program.cs` — mantén ambos alineados si tocas uno:
+
+- **Bootstrap logger** (`Log.Logger = new LoggerConfiguration().WriteTo.Console().CreateBootstrapLogger();`)
+  antes de `WebApplication.CreateBuilder`, con **todo** `Program.cs` dentro de un
+  `try { ... } catch (Exception ex) { Log.Fatal(...) } finally { Log.CloseAndFlush(); }`:
+  un fallo durante el arranque (antes de que `UseSerilog` termine de configurarse) queda
+  logueado igual, no se pierde.
+- Niveles y sinks (consola + fichero) se controlan enteramente desde la sección `Serilog`
+  de `appsettings.json`/`appsettings.Development.json` — ruta del fichero, rotación,
+  retención — sin tocar código. Fichero en `logs/api-.log` (rota a diario, 14 días de
+  retención, ruta relativa al content root). `logs/` está en `.gitignore`.
+- **No se loguea cada request** (no hay `UseSerilogRequestLogging`): solo los accesos
+  rechazados (401/403) via un middleware propio (`Log.Warning("Acceso no autorizado: ...")`),
+  igual que en OccupancyApi — así el fichero no se llena de 200 rutinarios.
+- Las excepciones no controladas *durante una request* (no en el arranque) las captura
+  `Services/GlobalExceptionHandler.cs` (`IExceptionHandler`, registrado con
+  `AddExceptionHandler<>()` + `app.UseExceptionHandler()` como middleware más externo de
+  todos) — esto sí es propio de AdminApi, OccupancyApi no lo tiene: loguea la excepción
+  completa (nivel `Error`, con traza) y responde al cliente un 500 genérico
+  (`{"message": "Ha ocurrido un error inesperado."}`) sin filtrar el mensaje/stack trace real.
+
 ## Convenciones que hay que seguir SIEMPRE
 
 - **Nunca `DbContext` directo en un controller.** Todo pasa por
